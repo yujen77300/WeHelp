@@ -1,0 +1,152 @@
+html,
+body {
+  /*   2. 所有文字預設為基礎尺寸 20px， */
+  font-size: 20px;
+  margin: 0;
+  padding: 0;
+  background-color: #f6f7f8;
+}
+
+header {
+  height: 30px;
+}
+
+.navbar {
+  display: flex;
+  /*   3. 網頁左上角的標題，要對齊畫面的最左邊。( 請測試大於 1200px 的螢幕尺寸 )
+     4. 網頁右上角的選單列，要對齊畫面的最右邊。( 請測試大於 1200px 的螢幕尺寸 ) */
+  justify-content: space-between;
+  /*   5. 網頁上方的標題和選單列的文字要垂直置中對齊。 */
+  align-items: center;
+  /*   outline: 2px blue solid; */
+  margin: 0 auto;
+  height: 100%;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+.item-section {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  width: 300px;
+}
+
+.welcome-bar {
+  width: 100%;
+  /*   1. 高300px */
+  height: 300px;
+  background: #75e6da;
+  /*   2. 中間歡迎文字的尺寸為基礎尺寸的兩倍大。 */
+  font-size: 200%;
+  /*   6. 中間的歡迎文字，要水平垂直置中。 */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.burger {
+  display: none;
+}
+
+main {
+  /*   1. 寬1200 左右自動對齊，達到水平置中 */
+  max-width: 1200px;
+  margin: 0 auto;
+  margin-top: 30px;
+}
+
+.promotion-section {
+  display: flex;
+  justify-content: space-between;
+}
+
+.promotion-img {
+  background-image: url(https://res.klook.com/images/fl_lossy.progressive,q_65/c_fill,w_1200,h_630/w_80,x_15,y_15,g_south_west,l_Klook_water_br_trans_yhcmh3/activities/l1jbza3tz8c7qjeafczd/%E3%80%90%E9%BE%9C%E5%B1%B1%E5%B3%B6%E7%89%9B%E5%A5%B6%E6%B9%96%E3%80%91%E5%AE%9C%E8%98%AD%E7%89%9B%E5%A5%B6%E6%B5%B7%E5%B8%86%E8%88%B9%E3%83%BB%E9%81%8A%E8%89%87%EF%BC%86SUP%20%E9%AB%94%E9%A9%97.jpg);
+  height: 50px;
+  /*   8. 內部左邊圖片寬度為 80px */
+  width: 80px;
+  background-size: cover;
+  background-position: center center;
+}
+.promotion {
+  /*   8. 主內容上方兩個方框高度為 50px，寬度相同且各占一半。
+     內部圖片和文字需垂直置中對齊。方框彼此間有空白間距。*/
+  width: 49%;
+  height: 50px;
+  background: #d4f1f4;
+  display: flex;
+  align-items: center;
+}
+
+.title-section {
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+}
+
+.title {
+  width: 282px;
+  background: #d4f1f4;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 24px;
+}
+
+.title-img {
+  background-image: url(https://res.klook.com/images/fl_lossy.progressive,q_65/c_fill,w_1200,h_630/w_80,x_15,y_15,g_south_west,l_Klook_water_br_trans_yhcmh3/activities/l1jbza3tz8c7qjeafczd/%E3%80%90%E9%BE%9C%E5%B1%B1%E5%B3%B6%E7%89%9B%E5%A5%B6%E6%B9%96%E3%80%91%E5%AE%9C%E8%98%AD%E7%89%9B%E5%A5%B6%E6%B5%B7%E5%B8%86%E8%88%B9%E3%83%BB%E9%81%8A%E8%89%87%EF%BC%86SUP%20%E9%AB%94%E9%A9%97.jpg);
+  height: 148.05px;
+  width: 282px;
+  background-size: cover;
+  background-position: center center;
+}
+
+@media screen and (max-width: 1200px) {
+  main {
+    max-width: 90%;
+  }
+  .title {
+    width: 49%;
+    margin-top: 20px;
+  }
+
+  .title-img {
+    width: 100%;
+    background-size: cover;
+    background-position: center center;
+  }
+}
+
+@media screen and (max-width: 600px) {
+  .item-section {
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-end;
+    align-items: center;
+  }
+  .item {
+    display: none;
+  }
+  .burger {
+    display: block;
+  }
+  main {
+    max-width: 90%;
+  }
+  .promotion-section {
+    display: flex;
+    flex-direction: column;
+  }
+  .promotion {
+    /*   outline: 3px solid blue; */
+    margin-top: 20px;
+    width: 100%;
+  }
+
+  .title {
+    /*   outline: 3px solid blue; */
+    width: 100%;
+    margin-top: 20px;
+  }
+}
