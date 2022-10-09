@@ -30,24 +30,22 @@ function renderPromoList(data) {
 
 // 新增會修改title資料的函數
 function renderTitleList(data, page) {
-  // promotion有八筆，所以迴圈跑八次
+  // title有八筆，所以迴圈跑八次
   for (let i = 0 + (8 * page); i < 8 + (8 * page); i++) {
-    let a = document.createElement('div')
-    let b = document.createElement('div')
-    let c = document.createElement('div')
-    let e = document.createElement('div')
-    let d = document.createElement('p')
-    a.className = "title"
-    b.className = "title-img"
-    c.className = "title-text"
-    e.className = "title"
-    titleSection.appendChild(a)
-    a.appendChild(b)
-    a.appendChild(c)
-    d.innerText = data[i + 2].stitle
-    c.appendChild(d)
+    let title = document.createElement('div')
+    let titleImg = document.createElement('div')
+    let titleText = document.createElement('div')
+    let spotTitle = document.createElement('p')
+    title.className = "title"
+    titleImg.className = "title-img"
+    titleText.className = "title-text"
+    titleSection.appendChild(title)
+    title.appendChild(titleImg)
+    title.appendChild(titleText)
+    spotTitle.innerText = data[i + 2].stitle
+    titleText.appendChild(spotTitle)
     let firstPic = 'https://' + data[i + 2].file.split('https://')[1]
-    b.style["background-image"] = `url(${firstPic})`
+    titleImg.style["background-image"] = `url(${firstPic})`
   }
 }
 
