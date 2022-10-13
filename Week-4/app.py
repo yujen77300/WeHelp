@@ -1,6 +1,8 @@
 # 載入flask物件
 from unittest import result
 from flask import Flask, request, redirect, render_template, url_for, session
+from curses.ascii import isdigit
+from pickle import TRUE
 
 app = Flask(
     __name__,
@@ -44,15 +46,17 @@ def error():
 @app.route("/signout")
 def signout():
     session.pop('status', None)
-    # session['status'] = None
-    # session.clear()
     return redirect("/")
 
 # 嘗試過使用post方法，接著用request.form來抓到原輸入字串，但沒辦法帶回url => 可以在思考怎麼做
 # 故嘗試透顧js函數直接更改url，接著再用query string的方式帶到其他partial template
 @app.route("/square/<value>")
 def square(value):
-    result = int(value) ** 2
-    return render_template("square.html", result=result)
+    if value.isdigit() == 1:
+        result = int(value) ** 2
+        return render_template("square.html", result=result)
+    else:
+        result = value
+        return render_template("square_error.html", result=result)
 
 app.run(port=3000)
