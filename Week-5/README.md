@@ -19,14 +19,38 @@ insert into member(name,username,password,follower_count) values("Moody","rookie
 ```
  SELECT * FROM MEMBER;
 ```
-![image](https://user-images.githubusercontent.com/54500773/196822675-fba84d13-97cc-465c-9d84-87d533fed3e6.png)
+![image](https://user-images.githubusercontent.com/54500773/196822749-dad92dd2-cd4a-4fd5-b955-69a03fca8327.png)
 
 + 使⽤ SELECT 指令取得所有在 member 資料表中的會員資料，並按照 time 欄位，由近到遠排序。
-+ 使⽤ SELECT 指令取得 member 資料表中第 2 ~ 4 共三筆資料，並按照 time 欄位，由近到遠排序。( 並非編號 2、3、4 的資料，⽽是排序後的第 2 ~ 4 筆資料 )
-+ 使⽤ SELECT 指令取得欄位 username 是 test 的會員資料。
-+ 使⽤ SELECT 指令取得欄位 username 是 test、且欄位 password 也是 test 的資料。
-+ 使⽤ UPDATE 指令更新欄位 username 是 test 的會員資料，將資料中的 name 欄位改成 test2。
+```
+SELECT * FROM MEMBER ORDER BY TIME DESC;
+```
+![image](https://user-images.githubusercontent.com/54500773/196822943-dc7f3e79-c1d6-4ef0-a625-72dd76009595.png)
 
++ 使⽤ SELECT 指令取得 member 資料表中第 2 ~ 4 共三筆資料，並按照 time 欄位，由近到遠排序。( 並非編號 2、3、4 的資料，⽽是排序後的第 2 ~ 4 筆資料 )
+```
+SELECT * FROM MEMBER ORDER BY TIME DESC LIMIT 1,3;
+```
+![image](https://user-images.githubusercontent.com/54500773/196823118-1553bfb8-0e16-4bfd-9388-d49a0a9d5372.png)
+
++ 使⽤ SELECT 指令取得欄位 username 是 test 的會員資料。
+```
+SELECT * FROM MEMBER WHERE USERNAME="TEST”;
+```
+![image](https://user-images.githubusercontent.com/54500773/196823264-8b948e7c-4f9d-4e91-8710-87a7127520da.png)
+
++ 使⽤ SELECT 指令取得欄位 username 是 test、且欄位 password 也是 test 的資料。
+```
+SELECT * FROM MEMBER WHERE USERNAME="TEST" AND PASSWORD="TEST”;
+```
+![image](https://user-images.githubusercontent.com/54500773/196823319-e5493fd7-2afd-4693-9a26-ccbd236a51b7.png)
+
++ 使⽤ UPDATE 指令更新欄位 username 是 test 的會員資料，將資料中的 name 欄位改成 test2。
+```
+SET SQL_SAFE_UPDATES=0;
+UPDATE MEMBER SET NAME = "test2" WHERE USERNAME="test";
+```
+![image](https://user-images.githubusercontent.com/54500773/196823761-993b5dcf-4db1-4eeb-ac36-40f9f73a0e7b.png)
 
 
 ## 要求四
