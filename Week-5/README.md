@@ -55,8 +55,22 @@ UPDATE MEMBER SET NAME = "test2" WHERE USERNAME="test";
 
 ## 要求四
 + 取得 member 資料表中，總共有幾筆資料 ( 幾位會員 )。
+```
+SELECT COUNT(*) AS TOTAL_MEMBER FROM MEMBER;
+```
+![image](https://user-images.githubusercontent.com/54500773/196825000-3a0911db-fee8-4cd8-90d7-eaad775dc82f.png)
+
 + 取得 member 資料表中，所有會員 follower_count 欄位的總和。
+```
+SELECT SUM(FOLLOWER_COUNT) AS TOTAL_FOLLOWER FROM MEMBER;
+```
+![image](https://user-images.githubusercontent.com/54500773/196825072-53228615-194e-4de7-9eaa-9373610c23d8.png)
+
 + 取得 member 資料表中，所有會員 follower_count 欄位的平均數。
+```
+SELECT AVG(FOLLOWER_COUNT) AS AVG_FOLLOWER FROM MEMBER;
+```
+![image](https://user-images.githubusercontent.com/54500773/196825130-c5c89768-2c94-4054-abc0-c99cb5b56f80.png)
 
 
 
