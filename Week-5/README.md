@@ -13,9 +13,14 @@ insert into member(name,username,password,follower_count) values("Lamb","new2","
 insert into member(name,username,password,follower_count) values("PBJ","rookie","9ol.",200);
 insert into member(name,username,password,follower_count) values("Moody","rookie2","poiu",300);
 ```
-![image](https://user-images.githubusercontent.com/54500773/196822432-2db00ff7-eedb-4da5-ae51-801ebe0528e9.png)
+![image](https://user-images.githubusercontent.com/54500773/196822600-175b9db3-8dfe-4843-81bc-08cc872c64ec.png)
 
 + 使⽤ SELECT 指令取得所有在 member 資料表中的會員資料。
+```
+ SELECT * FROM MEMBER;
+```
+![image](https://user-images.githubusercontent.com/54500773/196822675-fba84d13-97cc-465c-9d84-87d533fed3e6.png)
+
 + 使⽤ SELECT 指令取得所有在 member 資料表中的會員資料，並按照 time 欄位，由近到遠排序。
 + 使⽤ SELECT 指令取得 member 資料表中第 2 ~ 4 共三筆資料，並按照 time 欄位，由近到遠排序。( 並非編號 2、3、4 的資料，⽽是排序後的第 2 ~ 4 筆資料 )
 + 使⽤ SELECT 指令取得欄位 username 是 test 的會員資料。
