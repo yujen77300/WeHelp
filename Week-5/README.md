@@ -99,12 +99,16 @@ SELECT member.name,message.content from member INNER JOIN message ON member.id =
 ![image](https://user-images.githubusercontent.com/54500773/196826954-166ded75-8e10-410c-9389-cc80de1c38d9.png)
 
 
-+ 使⽤ SELECT 搭配 JOIN 語法，取得 member 資料表中欄位 username 是 test 的所有留⾔，資料中須包含留⾔者會員的姓名。
++ 使⽤ SELECT 搭配 JOIN 語法，取得 member 資料表中欄位 username 是 test 的所有留⾔，資料中須包含留⾔者會員的姓名。(註 : 雖有三筆 member.username = "test"，但只有一筆有新增message，故最後取得一筆)
 ```
+SELECT member.name,message.content FROM member INNER JOIN message ON member.id = message.member_id WHERE member.username = "test";
+```
+![image](https://user-images.githubusercontent.com/54500773/196827504-59d3c185-b5d8-48be-8374-af010ca070bd.png)
 
-```
 
 + 使⽤ SELECT、SQL Aggregate Functions 搭配 JOIN 語法，取得 member 資料表中欄位 username 是 test 的所有留⾔平均按讚數。
 ```
-
+SELECT AVG(message.like_count) as avg_like FROM member INNER JOIN message ON member.id = message.member_id WHERE member.username = "test";
 ```
+![image](https://user-images.githubusercontent.com/54500773/196827739-b6ec545d-d6e4-4e2e-9599-8701b761295a.png)
+
