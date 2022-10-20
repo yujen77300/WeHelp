@@ -76,7 +76,35 @@ SELECT AVG(follower_count) AS AVG_FOLLOWER FROM member;
 
 ## 要求五
 + 在資料庫中，建立新資料表紀錄留⾔資訊，取名字為 message。資料表中必須包含以下欄位設定：
+```
+CREATE TABLE message(
+	id BIGINT PRIMARY KEY AUTO_INCREMENT,
+    member_id BIGINT NOT NULL,
+    content VARCHAR(255) NOT NULL,
+    like_count INT UNSIGNED NOT NULL DEFAULT 0,
+    time DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP
+);
+ALTER TABLE message ADD FOREIGN KEY(member_id) REFERENCES member(id);
+INSERT INTO message(member_id,content,like_count) VALUES(1,"The chef",9999);
+INSERT INTO message(member_id,content,like_count) VALUES(3,"You got it",7777);
+INSERT INTO message(member_id,content,like_count) VALUES(8,"Dubnation",1111);
+INSERT INTO message(member_id,content,like_count) VALUES(9,"warriors",2222);
+```
+![image](https://user-images.githubusercontent.com/54500773/196826786-e2c4ff4f-66f2-4ae2-a5cb-83b1bd51d2fb.png)
 
 + 使⽤ SELECT 搭配 JOIN 語法，取得所有留⾔，結果須包含留⾔者會員的姓名。
+```
+SELECT member.name,message.content from member INNER JOIN message ON member.id = message.member_id;
+```
+![image](https://user-images.githubusercontent.com/54500773/196826954-166ded75-8e10-410c-9389-cc80de1c38d9.png)
+
+
 + 使⽤ SELECT 搭配 JOIN 語法，取得 member 資料表中欄位 username 是 test 的所有留⾔，資料中須包含留⾔者會員的姓名。
+```
+
+```
+
 + 使⽤ SELECT、SQL Aggregate Functions 搭配 JOIN 語法，取得 member 資料表中欄位 username 是 test 的所有留⾔平均按讚數。
+```
+
+```
