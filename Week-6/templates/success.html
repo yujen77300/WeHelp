@@ -1,0 +1,49 @@
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>WeHelp 會員帳號系統</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/css/bootstrap.min.css" rel="stylesheet"
+    integrity="sha384-gH2yIJqKdNHPEq0n4Mqa/HGKIhSkIHeL5AyhkYV8i59U5AR6csBvApHHNl/vI1Bx" crossorigin="anonymous">
+</head>
+
+<body>
+  <header class="bar" id="navbar">
+    <div class="container">
+      <span class="title">歡迎光臨，這是會員頁</span>
+    </div>
+    <link rel="stylesheet" href="/stylesheets/home.css">
+  </header>
+
+
+  <main>
+    <div class="container">
+      <div class="signin">{{user}}，歡迎登入系統</div>
+      <a href="/signout">登出系統</a>
+    </div>
+    <hr>
+    <div class="container">
+      <div class="signin" style="margin-bottom:15px;">快來留言吧</div>
+      <!-- 用POST連線方法到驗證功能網址127.0.0.1:3000/signin -->
+      <form action="/message" method="POST">
+        內容 <input class="input_button" type="text" name="comment">
+        <br>
+        <center><button>送出</button></center>
+      </form>
+    </div>
+    <hr>
+    <div class="container" style="margin-top:50px;">
+      {% for i in result %}
+      <div>
+        <p class="username" style="white-space:nowrap">{{i['username']}} : </p>
+        <p class="comment">{{i['content']}}</p>
+      </div>
+      {% endfor %}
+    </div>
+
+  </main>
+  <script src="/javascripts/script.js"></script>
+</body>
+
+</html>
