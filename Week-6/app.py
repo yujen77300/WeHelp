@@ -4,8 +4,8 @@ from pickle import TRUE
 from sqlite3 import Cursor
 from unittest import result
 from flask import Flask, request, redirect, render_template, url_for, session
-from flask_mysqldb import MySQL
-import MySQLdb
+import mysql.connector
+
 
 app = Flask(
     __name__,
@@ -13,16 +13,17 @@ app = Flask(
     static_url_path="/"
 )
 
-app.config['MYSQL_HOST'] = 'localhost'
-app.config['MYSQL_USER'] = 'root'
-app.config['MYSQL_PASSWORD'] = ''
-app.config['MYSQL_DB'] = 'website'
+#用規定的mysql-connector-python
+mydb = mysql.connector.connect(
+    host="localhost",
+    user="root",
+    password="1qaz@WSX",
+    database="website"
+)
+
 
 # 如果沒有設定，app.secret_key，則Flask將不允許您設定或訪問 session 字典。
 app.secret_key = "my secret key"
-
-# 建立資料庫連線
-db = MySQL(app)
 
 
 @app.route("/")
@@ -35,12 +36,12 @@ def signin():
     if 'account' in request.form and 'pwd' in request.form:
         username = request.form['account']
         password = request.form['pwd']
-        cursor = db.connection.cursor(MySQLdb.cursors.DictCursor)
+        cursor = mydb.cursor()
         cursor.execute(
             "SELECT * FROM member WHERE username=%s AND password=%s", (username, password))
         info = cursor.fetchone()
         if info is not None:
-            if info['username'] == username and info['password'] == password:
+            if info[2] == username and info[3] == password:
                 # 愈透過session在兩個request中傳遞資訊
                 session["status"] = username
                 return redirect(url_for('success'))
@@ -57,12 +58,11 @@ def success():
     else:
         # 取得當前帳號的資訊
         user = session.get('status')
-        cur = db.connection.cursor(MySQLdb.cursors.DictCursor)
+        cur = mydb.cursor()
         cur.execute(
             "SELECT member.username,message.content FROM member inner JOIN message ON member.id = message.member_id")
         info = cur.fetchall()
-        # tuple不可更改，故改為list，並用reverse方法讓最晚出現留言較出現在最上面
-        info = list(info)
+        # 並用reverse方法讓最晚出現留言較出現在最上面
         info.reverse()
 
         return render_template("success.html", user=user, result=info)
@@ -90,18 +90,18 @@ def signup():
             name = request.form['name']
             username = request.form['account']
             password = request.form['pwd']
-            cur = db.connection.cursor(MySQLdb.cursors.DictCursor)
+            cur = mydb.cursor()
             cur.execute(
                 "SELECT * FROM member WHERE username=%s", [username])
             info = cur.fetchone()
             if info is not None:
-                if info['username'] == username:
+                if info[2] == username:
                     return redirect(url_for('error', message="帳號已經被註冊"))
             else:
                 cur.execute(
                     "INSERT INTO member(name,username,password) VALUES(%s,%s,%s)", (name, username, password))
                 # 讓db的異動生效
-                db.connection.commit()
+                mydb.commit()
                 return redirect(url_for('home'))
 
 
@@ -109,17 +109,16 @@ def signup():
 def message():
     comment = request.form['comment']
     user = session.get('status')
-    cursor = db.connection.cursor(MySQLdb.cursors.DictCursor)
+    cursor = mydb.cursor()
     cursor.execute(
         "SELECT id FROM member WHERE username=%s;", [user])
     info = cursor.fetchone()
     # 透過session的username，取得紀錄的使⽤者編號memberID
-    memberID = (info["id"])
-
+    memberID = (info[0])
     # 將留言記錄到message資料表
     cursor.execute(
         "INSERT INTO message(member_id,content) VALUES(%s,%s);", (memberID, comment))
-    db.connection.commit()
+    mydb.commit()
     return redirect(url_for('success'))
 
 app.run(port=3000)
