@@ -36,8 +36,8 @@
     <div class="container" style="margin-top:50px;">
       {% for i in result %}
       <div>
-        <p class="username" style="white-space:nowrap">{{i['username']}} : </p>
-        <p class="comment">{{i['content']}}</p>
+        <p class="username" style="white-space:nowrap">{{i[0]}} : </p>
+        <p class="comment">{{i[1]}}</p>
       </div>
       {% endfor %}
     </div>
