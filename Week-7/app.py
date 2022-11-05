@@ -12,13 +12,14 @@ app = Flask(
     static_url_path="/"
 )
 
-# 用規定的mysql-connector-python
-mydb = mysql.connector.connect(
-    host="localhost",
-    user="root",
-    password="",
-    database="website"
-)
+dylan_pool = mysql.connector.pooling.MySQLConnectionPool(
+    pool_name="connectionPool",
+    pool_size=5,
+    pool_reset_session=True,
+    host='localhost',
+    database='website',
+    user='root',
+    password='')
 
 
 # 如果沒有設定，app.secret_key，則Flask將不允許您設定或訪問 session 字典。
@@ -35,6 +36,8 @@ def signin():
     if 'account' in request.form and 'pwd' in request.form:
         username = request.form['account']
         password = request.form['pwd']
+        # 隨便取一個連線來串聯資料庫
+        mydb = dylan_pool.get_connection()
         cursor = mydb.cursor()
         cursor.execute(
             "SELECT * FROM member WHERE username=%s AND password=%s", (username, password))
@@ -46,6 +49,9 @@ def signin():
                 return redirect(url_for('success'))
         else:
             return redirect(url_for('error', message="帳號或密碼輸入錯誤"))
+        # 釋放連線
+        cursor.close()
+        mydb.close()
 
 
 # 成功頁面
@@ -57,11 +63,14 @@ def success():
     else:
         # 取得當前帳號的資訊
         user = session.get('status')
+        mydb = dylan_pool.get_connection()
         cur = mydb.cursor()
         cur.execute(
             "SELECT member.username,message.content FROM member inner JOIN message ON member.id = message.member_id")
         info = cur.fetchall()
         info.reverse()
+        mydb.close()
+        cur.close()
 
         return render_template("success.html", user=user, result=info)
 
@@ -88,6 +97,7 @@ def signup():
             name = request.form['name']
             username = request.form['account']
             password = request.form['pwd']
+            mydb = dylan_pool.get_connection()
             cur = mydb.cursor()
             cur.execute(
                 "SELECT * FROM member WHERE username=%s", [username])
@@ -102,12 +112,15 @@ def signup():
                 # 讓db的異動生效
                 mydb.commit()
                 return redirect(url_for('home'))
+            cur.close()
+            mydb.close()
 
 
 @app.route("/message", methods=["POST"])
 def message():
     comment = request.form['comment']
     user = session.get('status')
+    mydb = dylan_pool.get_connection()
     cursor = mydb.cursor()
     cursor.execute(
         "SELECT id FROM member WHERE username=%s;", [user])
@@ -118,11 +131,11 @@ def message():
     cursor.execute(
         "INSERT INTO message(member_id,content) VALUES(%s,%s);", (memberID, comment))
     mydb.commit()
+    cursor.close()
+    mydb.close()
     return redirect(url_for('success'))
 
 # 查詢會籍資料API，修改名稱的API
-
-
 @app.route("/api/member", methods=["GET", "PATCH"])
 def apiMember():
     if request.method == "GET":
@@ -134,6 +147,7 @@ def apiMember():
                 return jsonify({'data': None})
             else:
                 username = request.args.get("username")
+                mydb = dylan_pool.get_connection()
                 # 到資料庫去找該username的資料
                 apiMemberCursor = mydb.cursor()
                 apiMemberCursor.execute(
@@ -145,6 +159,9 @@ def apiMember():
                     memberData[field_names[i]] = info[i]
         except:
             return jsonify({'data': None})
+        finally:
+            apiMemberCursor.close()
+            mydb.close()
         return jsonify({'data': memberData})
     elif request.method == "PATCH":
         try:
@@ -155,6 +172,7 @@ def apiMember():
                 user = session.get('status')
                 # 使用者自己輸入要改的姓名
                 newName = request.get_json()["name"]
+                mydb = dylan_pool.get_connection()
                 updateCursor = mydb.cursor()
                 updateCursor.execute(
                     "UPDATE member SET name=%s WHERE username=%s;", (newName, user))
@@ -163,6 +181,9 @@ def apiMember():
                 return jsonify({'OK': True})
         except:
             return jsonify({'error': True})
+        finally:
+            updateCursor.close()
+            mydb.close()
 
 
 app.run(port=3000)
