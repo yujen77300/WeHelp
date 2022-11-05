@@ -1,0 +1,53 @@
+.bar {
+  background-color: #223344;
+  height: 100px;
+
+}
+
+.title {
+  color: white;
+  padding: 10px 10px 0px 10px;
+  font-size: 30px;
+  font-weight: bold;
+  margin-top: 15px;
+}
+
+.container {
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+}
+
+.signin {
+  font-weight: bold;
+  font-size: 30px;
+  margin-top: 50px;
+}
+
+.input_button {
+  margin-bottom: 10px;
+}
+
+hr {
+  margin: 20px 0 0 0;
+}
+
+#countdown {
+  display: inline;
+  color:red ;
+}
+
+.username {
+  font-weight: bold;
+  font-size: 30px;
+  margin-top: 15px;
+  display: inline;
+}
+
+.comment {
+  font-size: 30px;
+  margin-top: 15px;
+  display: inline;
+}
